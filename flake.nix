@@ -18,6 +18,7 @@
       specialArgs = { inherit inputs; };
       modules = [
         backup-host.nixosModules.default
+        inputs.homelab.nixosModules.default
         ./modules/configuration.nix
       ];
     };
