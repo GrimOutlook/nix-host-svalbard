@@ -1,15 +1,13 @@
 {
   inputs = {
-    backup-host.url = "github:GrimOutlook/nix-backup-host";
-    homelab.follows = "backup-host/homelab";
-    nix-config.follows = "backup-host/nix-config";
-    nixpkgs.follows = "backup-host/nixpkgs";
+    homelab.url = "git+ssh://git@github.com/GrimOutlook/nix-homelab";
+    nix-config.url = "github:GrimOutlook/nix-config";
+    nixpkgs.follows = "nix-config/nixpkgs";
   };
 
   outputs =
     inputs@{
       nix-config,
-      backup-host,
       ...
     }:
     nix-config.lib.mkHost {
@@ -17,7 +15,6 @@
       system = "x86_64-linux";
       specialArgs = { inherit inputs; };
       modules = [
-        backup-host.nixosModules.default
         inputs.homelab.nixosModules.default
         ./modules/configuration.nix
       ];
